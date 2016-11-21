@@ -1,0 +1,9 @@
+{
+    "site": {
+        "port": 8080,
+        "host": "http://127.0.0.1",
+        "name": "PassportJS Boilerplate",
+        "secret": "passportjs-boilerplate",
+        "analytics": "UA-00000000-0"
+    }
+}
