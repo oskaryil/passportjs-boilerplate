@@ -9,7 +9,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 
 const config = require('./config.json');
 
-var app = express();
+const app = express();
 app.use(bodyParser.json()); // Support JSON Encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // Support encoded bodies
 
@@ -46,10 +46,11 @@ app.get('/login', (req, res, next) => {
 });
 
 app.get('/profile', isAuthenticated, (req, res, next) => {
-  res.json({
+  return res.json({
      success: true,
      page: 'Profile',
-     message: 'Successfully authenticated'
+     message: 'Successfully authenticated',
+     user: req.user
   });
 });
 
@@ -80,11 +81,12 @@ app.get('/auth/github/callback', passport.authenticate('github', {
  * ---------------------------
  */
 
-// Misc Stuff
+// "Middleware"
 function isAuthenticated(req, res, next) {
-    const isAuthenticated = false;
+    const db = require('./config/db');  // Fake DB
 
-    if (isAuthenticated) {
+    if (req.isAuthenticated()) {
+        req.user = db.data.user;
         return next();
     } else {
         return res.json({
